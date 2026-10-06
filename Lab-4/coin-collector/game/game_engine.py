@@ -12,10 +12,14 @@ import pygame
 
 from game.player import Player
 from game.coin import Coin
+from game.obstacle import Obstacle
 from game.collection import check_collection
 from game.renderer import WIDTH, HEIGHT
 
 NUM_COINS = 6
+NUM_OBSTACLES = 4
+STARTING_LIVES = 3
+INVINCIBLE_FRAMES = 60  # ~1 second at 60 FPS after being hit
 
 # (name, value, color, spawn weight): bronze is common, gold is rare.
 COIN_TYPES = [
@@ -28,12 +32,37 @@ COIN_TYPES = [
 class GameEngine:
     def __init__(self):
         self.player = Player(x=WIDTH / 2, y=HEIGHT / 2)
+        self.obstacles = []
+        for _ in range(NUM_OBSTACLES):
+            self.obstacles.append(self._random_obstacle())
         self.coins = [self._random_coin() for _ in range(NUM_COINS)]
         self.score = 0
+        self.lives = STARTING_LIVES
+        self.invincible = 0  # frames of hit-immunity remaining
+
+    def _random_obstacle(self):
+        # Keep the player's start area clear and obstacles fully inside the
+        # play area and off each other.
+        half = Obstacle(0, 0).size // 2
+        start_zone = self.player.get_rect().inflate(120, 120)
+        while True:
+            x = random.randint(half, WIDTH - half)
+            y = random.randint(half, HEIGHT - half)
+            ob = Obstacle(x, y)
+            rect = ob.get_rect()
+            if rect.colliderect(start_zone):
+                continue
+            if any(rect.colliderect(o.get_rect()) for o in self.obstacles):
+                continue
+            return ob
 
     def _random_coin(self):
-        x = random.randint(30, WIDTH - 30)
-        y = random.randint(30, HEIGHT - 30)
+        while True:
+            x = random.randint(30, WIDTH - 30)
+            y = random.randint(30, HEIGHT - 30)
+            spot = pygame.Rect(x - 12, y - 12, 24, 24)
+            if not any(spot.colliderect(o.get_rect()) for o in self.obstacles):
+                break
         name, value, color, _ = random.choices(
             COIN_TYPES, weights=[t[3] for t in COIN_TYPES]
         )[0]
@@ -60,7 +89,20 @@ class GameEngine:
             self.coins.remove(coin)
             self.coins.append(self._random_coin())
 
+        if self.invincible > 0:
+            self.invincible -= 1
+        elif any(self.player.get_rect().colliderect(o.get_rect())
+                 for o in self.obstacles):
+            # One life per hit; brief immunity so overlapping doesn't drain
+            # a life every frame.
+            self.lives = max(0, self.lives - 1)
+            self.invincible = INVINCIBLE_FRAMES
+
     def draw(self, surface, font):
         from game import renderer
-        renderer.draw_scene(surface, self.player, self.coins)
+        # Flash the player while invincible.
+        flashing = self.invincible > 0 and (self.invincible // 6) % 2 == 0
+        renderer.draw_scene(surface, self.player, self.coins,
+                            self.obstacles, hide_player=flashing)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
+        renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
