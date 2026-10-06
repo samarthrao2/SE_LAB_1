@@ -20,6 +20,8 @@ NUM_COINS = 6
 NUM_OBSTACLES = 4
 STARTING_LIVES = 3
 INVINCIBLE_FRAMES = 60  # ~1 second at 60 FPS after being hit
+FPS = 60
+ROUND_SECONDS = 30
 
 # (name, value, color, spawn weight): bronze is common, gold is rare.
 COIN_TYPES = [
@@ -31,6 +33,10 @@ COIN_TYPES = [
 
 class GameEngine:
     def __init__(self):
+        self.reset()
+
+    def reset(self):
+        """Start a fresh round: score, lives, timer, and the field."""
         self.player = Player(x=WIDTH / 2, y=HEIGHT / 2)
         self.obstacles = []
         for _ in range(NUM_OBSTACLES):
@@ -39,6 +45,8 @@ class GameEngine:
         self.score = 0
         self.lives = STARTING_LIVES
         self.invincible = 0  # frames of hit-immunity remaining
+        self.frames_left = ROUND_SECONDS * FPS
+        self.game_over = False
 
     def _random_obstacle(self):
         # Keep the player's start area clear and obstacles fully inside the
@@ -69,6 +77,8 @@ class GameEngine:
         return Coin(x=x, y=y, radius=12, value=value, color=color, kind=name)
 
     def handle_input(self, keys_pressed):
+        if self.game_over:
+            return
         dx = dy = 0
         if keys_pressed[pygame.K_UP]:
             dy -= self.player.speed
@@ -81,6 +91,8 @@ class GameEngine:
         self.player.move(dx, dy, WIDTH, HEIGHT)
 
     def update(self):
+        if self.game_over:
+            return
         collected = check_collection(self.player, self.coins)
         for coin in collected:
             self.score += coin.value
@@ -98,6 +110,15 @@ class GameEngine:
             self.lives = max(0, self.lives - 1)
             self.invincible = INVINCIBLE_FRAMES
 
+        self.frames_left -= 1
+        if self.frames_left <= 0 or self.lives <= 0:
+            self.frames_left = max(0, self.frames_left)
+            self.game_over = True
+
+    @property
+    def seconds_left(self):
+        return (self.frames_left + FPS - 1) // FPS  # round up
+
     def draw(self, surface, font):
         from game import renderer
         # Flash the player while invincible.
@@ -106,3 +127,6 @@ class GameEngine:
                             self.obstacles, hide_player=flashing)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
         renderer.draw_text(surface, font, f"Lives: {self.lives}", (10, 36))
+        renderer.draw_text(surface, font, f"Time: {self.seconds_left}", (10, 62))
+        if self.game_over:
+            renderer.draw_game_over(surface, font, self.score)

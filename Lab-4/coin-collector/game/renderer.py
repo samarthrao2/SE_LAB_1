@@ -30,3 +30,17 @@ def draw_banner(surface, font, text):
     surf = font.render(text, True, (255, 220, 80))
     rect = surf.get_rect(center=(surface.get_width() // 2, surface.get_height() // 2))
     surface.blit(surf, rect)
+
+
+def draw_game_over(surface, font, score):
+    overlay = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, 170))
+    surface.blit(overlay, (0, 0))
+    cx, cy = surface.get_width() // 2, surface.get_height() // 2
+    for text, dy, color in (
+        ("GAME OVER", -50, (255, 220, 80)),
+        (f"Final Score: {score}", 0, COLOR_TEXT),
+        ("Press R to play again", 50, COLOR_TEXT),
+    ):
+        surf = font.render(text, True, color)
+        surface.blit(surf, surf.get_rect(center=(cx, cy + dy)))
