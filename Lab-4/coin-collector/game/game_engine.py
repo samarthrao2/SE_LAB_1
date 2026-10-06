@@ -46,6 +46,10 @@ class GameEngine:
         collected = check_collection(self.player, self.coins)
         for coin in collected:
             self.score += coin.value
+            # Remove the coin so it can only be collected once, and spawn a
+            # replacement so the play area never runs out of coins.
+            self.coins.remove(coin)
+            self.coins.append(self._random_coin())
 
     def draw(self, surface, font):
         from game import renderer
