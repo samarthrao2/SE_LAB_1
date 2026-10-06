@@ -16,7 +16,13 @@ from game.collection import check_collection
 from game.renderer import WIDTH, HEIGHT
 
 NUM_COINS = 6
-COIN_VALUE = 1
+
+# (name, value, color, spawn weight): bronze is common, gold is rare.
+COIN_TYPES = [
+    ("bronze", 1, (205, 127, 50), 6),
+    ("silver", 3, (200, 200, 215), 3),
+    ("gold", 5, (255, 215, 0), 1),
+]
 
 
 class GameEngine:
@@ -28,7 +34,10 @@ class GameEngine:
     def _random_coin(self):
         x = random.randint(30, WIDTH - 30)
         y = random.randint(30, HEIGHT - 30)
-        return Coin(x=x, y=y, radius=12, value=COIN_VALUE)
+        name, value, color, _ = random.choices(
+            COIN_TYPES, weights=[t[3] for t in COIN_TYPES]
+        )[0]
+        return Coin(x=x, y=y, radius=12, value=value, color=color, kind=name)
 
     def handle_input(self, keys_pressed):
         dx = dy = 0
