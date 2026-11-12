@@ -1,0 +1,240 @@
+PS C:\...\Lab-7> python -m pytest test_processor.py
+C:\Users\Sam\AppData\Local\Programs\Python\Python311\Lib\site-packages\pytest_asyncio\plugin.py:300: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the "fixture" caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to "function" scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.2.0, pluggy-1.7.0
+rootdir: C:\Users\Sam\Desktop\se lab 7\Lab-7
+plugins: anyio-4.14.2, hypothesis-6.170.15, langsmith-0.14.11, locust-2.47.0, asyncio-1.4.1.post1, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 3 items
+
+test_processor.py FFF                                                    [100%]
+
+================================== FAILURES ===================================
+_____________________ test_decode_promo_voucher_no_crash ______________________
+  + Exception Group Traceback (most recent call last):
+  |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 6, in test_decode_promo_voucher_no_crash
+  |     def test_decode_promo_voucher_no_crash(s):
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 8, in test_decode_promo_voucher_no_crash
+    |     decode_promo_voucher(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 4, in decode_promo_voucher
+    |     percentage = int(pct_str)
+    |                  ^^^^^^^^^^^^
+    | ValueError: invalid literal for int() with base 10: ''
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 10, in test_decode_promo_voucher_no_crash
+    |     assert False, f"decode_promo_voucher crashed with: {e!r} for input {s!r}"
+    | AssertionError: decode_promo_voucher crashed with: ValueError("invalid literal for int() with base 10: ''") for input '-'
+    | assert False
+    | Failing test case: test_decode_promo_voucher_no_crash(
+    |     s='-',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 8, in test_decode_promo_voucher_no_crash
+    |     decode_promo_voucher(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 3, in decode_promo_voucher
+    |     prefix, pct_str = code.split('-')
+    |     ^^^^^^^^^^^^^^^
+    | ValueError: not enough values to unpack (expected 2, got 1)
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 10, in test_decode_promo_voucher_no_crash
+    |     assert False, f"decode_promo_voucher crashed with: {e!r} for input {s!r}"
+    | AssertionError: decode_promo_voucher crashed with: ValueError('not enough values to unpack (expected 2, got 1)') for input ''
+    | assert False
+    | Failing test case: test_decode_promo_voucher_no_crash(
+    |     s='',
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 8, in test_decode_promo_voucher_no_crash
+    |     decode_promo_voucher(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 2, in decode_promo_voucher
+    |     code = voucher_code.strip()
+    |            ^^^^^^^^^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'strip'
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 10, in test_decode_promo_voucher_no_crash
+    |     assert False, f"decode_promo_voucher crashed with: {e!r} for input {s!r}"
+    | AssertionError: decode_promo_voucher crashed with: AttributeError("'NoneType' object has no attribute 'strip'") for input None
+    | assert False
+    | Failing test case: test_decode_promo_voucher_no_crash(
+    |     s=None,
+    | )
+    +------------------------------------
+_____________________ test_calculate_seat_tier_price_safe _____________________
+  + Exception Group Traceback (most recent call last):
+  |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 14, in test_calculate_seat_tier_price_safe
+  |     def test_calculate_seat_tier_price_safe(s):
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 4 distinct failures. (4 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 16, in test_calculate_seat_tier_price_safe
+    |     calculate_seat_tier_price(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 16, in calculate_seat_tier_price
+    |     base = tier_rates[tier]
+    |            ~~~~~~~~~~^^^^^^
+    | KeyError: ''
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 18, in test_calculate_seat_tier_price_safe
+    |     assert False, f"calculate_seat_tier_price crashed with: {e!r} for input {s!r}"
+    | AssertionError: calculate_seat_tier_price crashed with: KeyError('') for input '@0'
+    | assert False
+    | Failing test case: test_calculate_seat_tier_price_safe(
+    |     s='@0',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 16, in test_calculate_seat_tier_price_safe
+    |     calculate_seat_tier_price(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 10, in calculate_seat_tier_price
+    |     row = int(parts[1])
+    |           ^^^^^^^^^^^^^
+    | ValueError: invalid literal for int() with base 10: ''
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 18, in test_calculate_seat_tier_price_safe
+    |     assert False, f"calculate_seat_tier_price crashed with: {e!r} for input {s!r}"
+    | AssertionError: calculate_seat_tier_price crashed with: ValueError("invalid literal for int() with base 10: ''") for input '@'
+    | assert False
+    | Failing test case: test_calculate_seat_tier_price_safe(
+    |     s='@',
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 16, in test_calculate_seat_tier_price_safe
+    |     calculate_seat_tier_price(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 10, in calculate_seat_tier_price
+    |     row = int(parts[1])
+    |               ~~~~~^^^
+    | IndexError: list index out of range
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 18, in test_calculate_seat_tier_price_safe
+    |     assert False, f"calculate_seat_tier_price crashed with: {e!r} for input {s!r}"
+    | AssertionError: calculate_seat_tier_price crashed with: IndexError('list index out of range') for input ''
+    | assert False
+    | Failing test case: test_calculate_seat_tier_price_safe(
+    |     s='',
+    | )
+    +---------------- 4 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 16, in test_calculate_seat_tier_price_safe
+    |     calculate_seat_tier_price(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 8, in calculate_seat_tier_price
+    |     parts = tier_spec.split('@')
+    |             ^^^^^^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'split'
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 18, in test_calculate_seat_tier_price_safe
+    |     assert False, f"calculate_seat_tier_price crashed with: {e!r} for input {s!r}"
+    | AssertionError: calculate_seat_tier_price crashed with: AttributeError("'NoneType' object has no attribute 'split'") for input None
+    | assert False
+    | Failing test case: test_calculate_seat_tier_price_safe(
+    |     s=None,
+    | )
+    +------------------------------------
+_______________________ test_parse_attendee_badge_safe ________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 22, in test_parse_attendee_badge_safe
+  |     def test_parse_attendee_badge_safe(s):
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 24, in test_parse_attendee_badge_safe
+    |     parse_attendee_badge(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 22, in parse_attendee_badge
+    |     age = int(tokens[1])
+    |           ^^^^^^^^^^^^^^
+    | ValueError: invalid literal for int() with base 10: ''
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 26, in test_parse_attendee_badge_safe
+    |     assert False, f"parse_attendee_badge crashed with: {e!r} for input {s!r}"
+    | AssertionError: parse_attendee_badge crashed with: ValueError("invalid literal for int() with base 10: ''") for input ','
+    | assert False
+    | Failing test case: test_parse_attendee_badge_safe(
+    |     s=',',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 24, in test_parse_attendee_badge_safe
+    |     parse_attendee_badge(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 22, in parse_attendee_badge
+    |     age = int(tokens[1])
+    |               ~~~~~~^^^
+    | IndexError: list index out of range
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 26, in test_parse_attendee_badge_safe
+    |     assert False, f"parse_attendee_badge crashed with: {e!r} for input {s!r}"
+    | AssertionError: parse_attendee_badge crashed with: IndexError('list index out of range') for input ''
+    | assert False
+    | Failing test case: test_parse_attendee_badge_safe(
+    |     s='',
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 24, in test_parse_attendee_badge_safe
+    |     parse_attendee_badge(s)
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 20, in parse_attendee_badge
+    |     tokens = badge_csv.split(',')
+    |              ^^^^^^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'split'
+    | 
+    | During handling of the above exception, another exception occurred:
+    | 
+    | Traceback (most recent call last):
+    |   File "C:\Users\Sam\Desktop\se lab 7\Lab-7\test_processor.py", line 26, in test_parse_attendee_badge_safe
+    |     assert False, f"parse_attendee_badge crashed with: {e!r} for input {s!r}"
+    | AssertionError: parse_attendee_badge crashed with: AttributeError("'NoneType' object has no attribute 'split'") for input None
+    | assert False
+    | Failing test case: test_parse_attendee_badge_safe(
+    |     s=None,
+    | )
+    +------------------------------------
+============================== warnings summary ===============================
+..\..\..\AppData\Local\Programs\Python\Python311\Lib\site-packages\anyio\pytest_plugin.py:14
+  C:\Users\Sam\AppData\Local\Programs\Python\Python311\Lib\site-packages\anyio\pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED test_processor.py::test_decode_promo_voucher_no_crash - ExceptionGroup...
+FAILED test_processor.py::test_calculate_seat_tier_price_safe - ExceptionGrou...
+FAILED test_processor.py::test_parse_attendee_badge_safe - ExceptionGroup: Hy...
+======================== 3 failed, 1 warning in 2.19s =========================

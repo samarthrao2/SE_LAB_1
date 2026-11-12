@@ -1,0 +1,18 @@
+PS C:\...\Lab-7> python processor.py   (badge: Alice,abc,A12)
+==== Running decode_promo_voucher ====
+Enter voucher (e.g. EARLY-20): Voucher: Valid EARLY: 20% OFF
+
+==== Running calculate_seat_tier_price ====
+Enter tier spec (e.g. VIP@4): Seat Price: $ 158.0
+
+==== Running parse_attendee_badge ====
+Enter badge CSV (Name,Age,Seat): Traceback (most recent call last):
+  File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 41, in <module>
+    main()
+  File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 38, in main
+    print("Badge:", parse_attendee_badge(b_input))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sam\Desktop\se lab 7\Lab-7\processor.py", line 22, in parse_attendee_badge
+    age = int(tokens[1])
+          ^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'abc'

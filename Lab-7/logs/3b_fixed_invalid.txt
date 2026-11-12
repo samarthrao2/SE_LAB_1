@@ -1,0 +1,9 @@
+PS C:\...\Lab-7> python processor.py   (invalid inputs: EARLY / GOLD@4 / Alice,abc,A12)
+==== Running decode_promo_voucher ====
+Enter voucher (e.g. EARLY-20): Voucher: Invalid voucher: expected format PREFIX-PERCENT
+
+==== Running calculate_seat_tier_price ====
+Enter tier spec (e.g. VIP@4): Invalid tier spec: expected TIER@ROW, TIER in VIP/PREMIUM/GENERAL, ROW 0-1000
+
+==== Running parse_attendee_badge ====
+Enter badge CSV (Name,Age,Seat): Badge: Invalid badge: age must be a whole number from 0 to 120
